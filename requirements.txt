@@ -1,0 +1,6 @@
+selenium
+beautifulsoup
+chromedriver(version which matches with browser version) 
+csv
+getpass
+linkedin_api
