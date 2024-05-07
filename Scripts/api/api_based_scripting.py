@@ -8,7 +8,7 @@ import csv
 from linkedin_api import Linkedin
 from dataclasses import dataclass
 import json
-from authorization import auth,headers
+
 
 
 
@@ -42,7 +42,7 @@ class Linkedin_data:
         try:
             # provides search result for people with user input
             search_result = linkedin.search_people(first_name,last_name, limit = 10)
-            print(search_result)
+            #print(search_result)
 
             # writing data to csv file
             with open(filename,'w', newline='', encoding = 'utf-8') as f:
@@ -51,14 +51,38 @@ class Linkedin_data:
                 writer.writeheader()
                 for results in search_result:
 
-                    # access headline to know about profession/ returns no headline found for profiles with no healdines 
-                    profession = results['jobtitle']
-                    Name = results['name']
-                    location = results['location']
-                    urn_id = results['urn_id']
+                    # accessing the data in the search results which can be used for more data collection
+
+                    #Extracts profession details
+                    profession = ''
+                    if results['jobtitle'] is not None:
+                        profession = results['jobtitle']
+                    else:
+                        profession = 'NA'
+                    
+                    #Extracts name
+                    Name = ''
+                    if results['name'] is not None:
+                        Name = results['name']
+                    else:
+                        Name = 'NA'
+
+                    #Extracts the location
+                    location = ''
+                    if results['location'] is not None:
+                        location = results['location']
+                    else:
+                        location = 'NA'
+
+                    #Extracts urn_id
+                    urn_id = ''
+                    if results['urn_id'] is not None:
+                        urn_id = results['urn_id']
+                    else:
+                        urn_id = 'NA'    
 
                     # Using name for extracting profile details
-                    # from profile details we can acess profile skills
+                    # from profile details we can acess profile skills,headlines and current industry.
                     profile_details = linkedin.get_profile(urn_id)
                     industry = profile_details['industryName']
                     headline = profile_details['headline']
